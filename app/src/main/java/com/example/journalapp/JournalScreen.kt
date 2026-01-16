@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.weight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AttachFile
 import androidx.compose.material.icons.filled.CalendarToday
@@ -220,8 +219,7 @@ private fun EditorCard(
             value = text,
             onValueChange = onTextChanged,
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f),
+                .fillMaxWidth(),
             textStyle = MaterialTheme.typography.bodyLarge,
             placeholder = { Text("Write your day...") },
         )
@@ -238,9 +236,7 @@ private fun MarkdownPreview(
         Spacer(modifier = Modifier.height(8.dp))
         MarkdownView(
             markdown = markdown,
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f),
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }

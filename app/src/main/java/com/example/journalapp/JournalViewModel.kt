@@ -81,7 +81,7 @@ class JournalViewModel(
                 }
                 textFlow.value = text
             } catch (e: Exception) {
-                _uiState.update { it.copy(errorMessage = \"Folder access lost. Please reselect.\") }
+                _uiState.update { it.copy(errorMessage = "Folder access lost. Please reselect.") }
             } finally {
                 suppressSave = false
             }
@@ -94,7 +94,7 @@ class JournalViewModel(
                 val entries = repository.listEntryDates(month)
                 _uiState.update { it.copy(currentMonth = month, entriesForMonth = entries) }
             } catch (e: Exception) {
-                _uiState.update { it.copy(errorMessage = \"Folder access lost. Please reselect.\") }
+                _uiState.update { it.copy(errorMessage = "Folder access lost. Please reselect.") }
             }
         }
     }
@@ -133,7 +133,7 @@ class JournalViewModel(
                 val entries = repository.listEntryDates(YearMonth.from(date))
                 _uiState.update { it.copy(entriesForMonth = entries) }
             } catch (e: Exception) {
-                _uiState.update { it.copy(errorMessage = \"Folder access lost. Please reselect.\") }
+                _uiState.update { it.copy(errorMessage = "Folder access lost. Please reselect.") }
             }
         }
     }
@@ -147,7 +147,7 @@ class JournalViewModel(
             val entries = repository.listEntryDates(YearMonth.from(date))
             _uiState.update { it.copy(entriesForMonth = entries) }
         } catch (e: Exception) {
-            _uiState.update { it.copy(errorMessage = \"Folder access lost. Please reselect.\") }
+            _uiState.update { it.copy(errorMessage = "Folder access lost. Please reselect.") }
         }
     }
 

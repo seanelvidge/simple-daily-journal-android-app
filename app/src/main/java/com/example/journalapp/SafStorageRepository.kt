@@ -35,7 +35,7 @@ class SafStorageRepository(
         } ?: ""
     }
 
-    override suspend fun saveEntry(date: LocalDate, text: String) = withContext(Dispatchers.IO) {
+    override suspend fun saveEntry(date: LocalDate, text: String) = withContext<Unit>(Dispatchers.IO) {
         val root = getRootDocument() ?: return@withContext
         val monthFolder = ensureMonthFolder(root, YearMonth.from(date)) ?: return@withContext
         val fileName = DateUtils.entryFileName(date)
