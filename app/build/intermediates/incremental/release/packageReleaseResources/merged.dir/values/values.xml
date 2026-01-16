@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="http://schemas.android.com/tools">
+    <bool name="is_light_theme">true</bool>
+    <color name="launcher_background">#F6F2EE</color>
+    <style name="Theme.JournalApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar" ns1:targetApi="m">@bool/is_light_theme</item>
+    </style>
+</resources>
