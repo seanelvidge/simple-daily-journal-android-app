@@ -8,14 +8,19 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import com.example.journalapp.ui.theme.JournalTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
+    private val settings by lazy { SettingsDataStore(this) }
     private val viewModel: JournalViewModel by viewModels {
         JournalViewModel.Factory(
-            SafStorageRepository(this, SettingsDataStore(this))
+            SafStorageRepository(this, settings)
         )
     }
 
@@ -23,6 +28,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val context = LocalContext.current
+            val coroutineScope = rememberCoroutineScope()
+            val themeMode by settings.themeModeFlow.collectAsState(initial = ThemeMode.SYSTEM)
             val pickFolderLauncher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.OpenDocumentTree(),
                 onResult = { uri ->
@@ -43,7 +50,7 @@ class MainActivity : ComponentActivity() {
                 onResult = { uris -> viewModel.attachFiles(uris) }
             )
 
-            JournalTheme {
+            JournalTheme(mode = themeMode) {
                 JournalApp(
                     viewModel = viewModel,
                     onPickFolder = { pickFolderLauncher.launch(null) },
@@ -52,6 +59,12 @@ class MainActivity : ComponentActivity() {
                         pickPhotosLauncher.launch(
                             PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                         )
+                    },
+                    themeMode = themeMode,
+                    onThemeModeChange = { mode ->
+                        coroutineScope.launch {
+                            settings.setThemeMode(mode)
+                        }
                     },
                 )
             }

@@ -30,8 +30,13 @@ private val DarkColors = darkColorScheme(
 )
 
 @Composable
-fun JournalTheme(content: @Composable () -> Unit) {
-    val colors = if (isSystemInDarkTheme()) DarkColors else LightColors
+fun JournalTheme(mode: com.example.journalapp.ThemeMode, content: @Composable () -> Unit) {
+    val isDark = when (mode) {
+        com.example.journalapp.ThemeMode.SYSTEM -> isSystemInDarkTheme()
+        com.example.journalapp.ThemeMode.DARK -> true
+        com.example.journalapp.ThemeMode.LIGHT -> false
+    }
+    val colors = if (isDark) DarkColors else LightColors
     MaterialTheme(
         colorScheme = colors,
         typography = Typography,

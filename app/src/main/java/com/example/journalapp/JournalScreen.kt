@@ -13,9 +13,10 @@ import androidx.compose.material.icons.filled.AttachFile
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -39,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import java.time.LocalDate
@@ -61,6 +63,7 @@ fun JournalScreen(
 ) {
     var showCalendar by remember { mutableStateOf(false) }
     var showAttachMenu by remember { mutableStateOf(false) }
+    var isPreview by remember { mutableStateOf(false) }
     val lifecycleOwner = LocalLifecycleOwner.current
 
     DisposableEffect(lifecycleOwner) {
@@ -81,6 +84,7 @@ fun JournalScreen(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
+                modifier = Modifier.statusBarsPadding(),
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface,
                 ),
@@ -102,6 +106,13 @@ fun JournalScreen(
                     }
                 },
                 actions = {
+                    IconButton(onClick = { isPreview = !isPreview }) {
+                        if (isPreview) {
+                            Icon(Icons.Default.Edit, contentDescription = "Edit mode")
+                        } else {
+                            Icon(Icons.Default.Visibility, contentDescription = "Preview mode")
+                        }
+                    }
                     IconButton(onClick = onNextDay) {
                         Icon(Icons.Default.ChevronRight, contentDescription = "Next day")
                     }
@@ -128,20 +139,22 @@ fun JournalScreen(
             if (state.errorMessage != null) {
                 ErrorBanner(message = state.errorMessage, onReselect = onPickFolder)
             }
-            EditorCard(
-                text = state.editorText,
-                onTextChanged = onTextChanged,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            )
-            Divider()
-            MarkdownPreview(
-                markdown = state.previewText,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            )
+            if (isPreview) {
+                MarkdownPreview(
+                    markdown = state.previewText,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxSize(),
+                )
+            } else {
+                EditorCard(
+                    text = state.editorText,
+                    onTextChanged = onTextChanged,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxSize(),
+                )
+            }
         }
     }
 
@@ -213,14 +226,13 @@ private fun EditorCard(
     modifier: Modifier,
 ) {
     Column(modifier = modifier) {
-        Text(text = "Markdown", style = MaterialTheme.typography.titleSmall)
-        Spacer(modifier = Modifier.height(8.dp))
         androidx.compose.material3.OutlinedTextField(
             value = text,
             onValueChange = onTextChanged,
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxSize(),
             textStyle = MaterialTheme.typography.bodyLarge,
+            label = { Text("Markdown") },
             placeholder = { Text("Write your day...") },
         )
     }
@@ -236,7 +248,7 @@ private fun MarkdownPreview(
         Spacer(modifier = Modifier.height(8.dp))
         MarkdownView(
             markdown = markdown,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }

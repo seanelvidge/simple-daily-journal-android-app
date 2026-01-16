@@ -14,6 +14,8 @@ fun JournalApp(
     onPickFolder: () -> Unit,
     onPickFiles: () -> Unit,
     onPickPhotos: () -> Unit,
+    themeMode: ThemeMode,
+    onThemeModeChange: (ThemeMode) -> Unit,
 ) {
     val navController = rememberNavController()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -43,6 +45,8 @@ fun JournalApp(
                 rootUri = state.rootUri,
                 onBack = { navController.popBackStack() },
                 onPickFolder = onPickFolder,
+                themeMode = themeMode,
+                onThemeModeChange = onThemeModeChange,
             )
         }
     }
