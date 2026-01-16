@@ -220,7 +220,8 @@ private fun EditorCard(
             value = text,
             onValueChange = onTextChanged,
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxWidth()
+                .weight(1f),
             textStyle = MaterialTheme.typography.bodyLarge,
             placeholder = { Text("Write your day...") },
         )
@@ -235,6 +236,11 @@ private fun MarkdownPreview(
     Column(modifier = modifier) {
         Text(text = "Preview", style = MaterialTheme.typography.titleSmall)
         Spacer(modifier = Modifier.height(8.dp))
-        MarkdownView(markdown = markdown, modifier = Modifier.fillMaxSize())
+        MarkdownView(
+            markdown = markdown,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
+        )
     }
 }
