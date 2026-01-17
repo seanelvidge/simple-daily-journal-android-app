@@ -92,7 +92,7 @@ fun JournalScreen(
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
                             text = DateUtils.displayDate(state.currentDate),
-                            style = MaterialTheme.typography.titleLarge,
+                            style = MaterialTheme.typography.titleMedium,
                             textAlign = TextAlign.Center,
                         )
                         TextButton(onClick = { showCalendar = true }) {
