@@ -1,0 +1,8 @@
+<resources>
+    <style name="Theme.JournalApp.Launcher" parent="Theme.JournalApp">
+        <item name="android:windowSplashScreenBackground">@color/launcher_background</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/journal_load</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/launcher_background</item>
+        <item name="android:postSplashScreenTheme">@style/Theme.JournalApp</item>
+    </style>
+</resources>
