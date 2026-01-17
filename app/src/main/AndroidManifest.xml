@@ -2,12 +2,14 @@
 
     <application
         android:allowBackup="true"
-        android:label="Daily Journal"
+        android:label="@string/app_name"
+        android:shortLabel="@string/app_short_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.JournalApp">
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.JournalApp.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

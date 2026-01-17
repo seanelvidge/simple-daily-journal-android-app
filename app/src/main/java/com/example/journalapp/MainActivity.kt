@@ -25,6 +25,7 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_JournalApp)
         super.onCreate(savedInstanceState)
         setContent {
             val context = LocalContext.current
