@@ -1,7 +1,9 @@
 package com.example.journalapp
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,7 +28,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -94,10 +95,8 @@ fun JournalScreen(
                             text = DateUtils.displayDate(state.currentDate),
                             style = MaterialTheme.typography.titleMedium,
                             textAlign = TextAlign.Center,
+                            modifier = Modifier.clickable { showCalendar = true },
                         )
-                        TextButton(onClick = { showCalendar = true }) {
-                            Text(text = "Pick date")
-                        }
                     }
                 },
                 navigationIcon = {
@@ -116,8 +115,29 @@ fun JournalScreen(
                     IconButton(onClick = onNextDay) {
                         Icon(Icons.Default.ChevronRight, contentDescription = "Next day")
                     }
-                    IconButton(onClick = { showAttachMenu = true }) {
-                        Icon(Icons.Default.AttachFile, contentDescription = "Attach")
+                    Box {
+                        IconButton(onClick = { showAttachMenu = true }) {
+                            Icon(Icons.Default.AttachFile, contentDescription = "Attach")
+                        }
+                        DropdownMenu(
+                            expanded = showAttachMenu,
+                            onDismissRequest = { showAttachMenu = false },
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text("Photos") },
+                                onClick = {
+                                    showAttachMenu = false
+                                    onPickPhotos()
+                                },
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Files") },
+                                onClick = {
+                                    showAttachMenu = false
+                                    onPickFiles()
+                                },
+                            )
+                        }
                     }
                     IconButton(onClick = { showCalendar = true }) {
                         Icon(Icons.Default.CalendarToday, contentDescription = "Calendar")
@@ -178,25 +198,7 @@ fun JournalScreen(
         }
     }
 
-    DropdownMenu(
-        expanded = showAttachMenu,
-        onDismissRequest = { showAttachMenu = false },
-    ) {
-        DropdownMenuItem(
-            text = { Text("Photos") },
-            onClick = {
-                showAttachMenu = false
-                onPickPhotos()
-            },
-        )
-        DropdownMenuItem(
-            text = { Text("Files") },
-            onClick = {
-                showAttachMenu = false
-                onPickFiles()
-            },
-        )
-    }
+    
 }
 
 @Composable
