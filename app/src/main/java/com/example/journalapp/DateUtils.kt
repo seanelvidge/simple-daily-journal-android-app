@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter
 object DateUtils {
     private val monthFormatter = DateTimeFormatter.ofPattern("yyyy-MM")
     private val fileFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    private val displayFormatter = DateTimeFormatter.ofPattern("EEE, MMM d, yyyy")
+    private val displayFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy")
     private val attachmentFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HHmmss")
 
     fun monthFolderName(month: YearMonth): String = month.format(monthFormatter)

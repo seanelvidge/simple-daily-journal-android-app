@@ -106,15 +106,18 @@ fun JournalScreen(
                     }
                 },
                 actions = {
+                    IconButton(onClick = onNextDay) {
+                        Icon(Icons.Default.ChevronRight, contentDescription = "Next day")
+                    }
+                    IconButton(onClick = { showCalendar = true }) {
+                        Icon(Icons.Default.CalendarToday, contentDescription = "Calendar")
+                    }
                     IconButton(onClick = { isPreview = !isPreview }) {
                         if (isPreview) {
                             Icon(Icons.Default.Edit, contentDescription = "Edit mode")
                         } else {
                             Icon(Icons.Default.Visibility, contentDescription = "Preview mode")
                         }
-                    }
-                    IconButton(onClick = onNextDay) {
-                        Icon(Icons.Default.ChevronRight, contentDescription = "Next day")
                     }
                     Box {
                         IconButton(onClick = { showAttachMenu = true }) {
@@ -139,9 +142,6 @@ fun JournalScreen(
                                 },
                             )
                         }
-                    }
-                    IconButton(onClick = { showCalendar = true }) {
-                        Icon(Icons.Default.CalendarToday, contentDescription = "Calendar")
                     }
                     IconButton(onClick = onOpenSettings) {
                         Icon(Icons.Default.Settings, contentDescription = "Settings")
