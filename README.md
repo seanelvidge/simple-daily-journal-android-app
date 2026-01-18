@@ -1,6 +1,11 @@
-# Daily Journal (Android)
+# Simple Daily Journaling (Android)
 
 A simple offline-first daily journal for Markdown notes stored in a user-selected folder.
+
+Latest release: **v1.1.0**  
+APK download: https://github.com/seanelvidge/journalApp/releases/tag/v1.1.0
+
+You can either download the APK from the release page or build it yourself.
 
 ## Setup / Build / Run
 
@@ -11,6 +16,14 @@ A simple offline-first daily journal for Markdown notes stored in a user-selecte
 ```bash
 ./gradlew assembleDebug
 ```
+
+Release APK (signed if `keystore.properties` is configured):
+
+```bash
+./gradlew assembleRelease
+```
+
+Release output: `app/build/outputs/apk/release/journaling.apk`
 
 ## Storage scheme
 
@@ -24,11 +37,12 @@ Attachments are copied into the monthly `attachments` folder with collision-safe
 
 ## Features
 
-- Offline-first Markdown editor with live preview.
-- Auto-save (debounced) and save on background.
+- Offline-first Markdown editor with toggleable preview.
+- Auto-save (debounced) and save on background; force save in Settings.
 - Attach files or photos and append Markdown links/images.
-- Calendar with markers for days that have entries.
-- Settings screen to change the storage folder.
+- Calendar with markers for days that have entries, plus swipe left/right to change days.
+- Template support for new entries.
+- Theme selection (System/Light/Dark) and About dialog.
 
 ## Known limitations
 
