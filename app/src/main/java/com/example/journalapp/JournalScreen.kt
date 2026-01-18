@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AttachFile
@@ -158,6 +159,7 @@ fun JournalScreen(
                 .padding(padding)
                 .fillMaxSize()
                 .padding(16.dp)
+                .imePadding()
                 .pointerInput(state.currentDate) {
                     var totalDrag = 0f
                     detectHorizontalDragGestures(
@@ -270,8 +272,6 @@ private fun MarkdownPreview(
     modifier: Modifier,
 ) {
     Column(modifier = modifier) {
-        Text(text = "Preview", style = MaterialTheme.typography.titleSmall)
-        Spacer(modifier = Modifier.height(8.dp))
         MarkdownView(
             markdown = markdown,
             modifier = Modifier.fillMaxSize(),
