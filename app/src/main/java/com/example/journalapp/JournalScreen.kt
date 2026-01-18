@@ -258,7 +258,8 @@ private fun EditorCard(
             value = text,
             onValueChange = onTextChanged,
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .imePadding(),
             textStyle = MaterialTheme.typography.bodyLarge,
             label = { Text("Markdown") },
             placeholder = { Text("Write your day...") },
