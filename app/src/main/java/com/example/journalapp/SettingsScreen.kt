@@ -121,9 +121,12 @@ private fun AboutButton() {
             title = { Text("Simple Daily Journaling") },
             text = {
                 Text(
-                    "Offline-first daily journal for Markdown notes.\\n\\n" +
-                        "Version: ${BuildConfig.VERSION_NAME}\\n" +
-                        "Author: Sean Elvidge"
+                    """
+                    Offline-first daily journal for Markdown notes.
+
+                    Version: ${BuildConfig.VERSION_NAME}
+                    Author: Sean Elvidge
+                    """.trimIndent()
                 )
             },
             confirmButton = {
