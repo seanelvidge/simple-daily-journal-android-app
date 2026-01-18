@@ -47,6 +47,14 @@ android {
         }
     }
 
+    applicationVariants.all { variant ->
+        if (variant.name == "release") {
+            variant.outputs.all { output ->
+                outputFileName = "journaling.apk"
+            }
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
