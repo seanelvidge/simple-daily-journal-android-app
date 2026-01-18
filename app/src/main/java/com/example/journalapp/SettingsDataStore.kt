@@ -13,6 +13,7 @@ private val Context.dataStore by preferencesDataStore(name = "journal_settings")
 class SettingsDataStore(private val context: Context) {
     private val rootUriKey = stringPreferencesKey("root_uri")
     private val themeModeKey = stringPreferencesKey("theme_mode")
+    private val templateKey = stringPreferencesKey("template_markdown")
 
     val rootUriFlow: Flow<Uri?> = context.dataStore.data.map { prefs ->
         prefs[rootUriKey]?.let(Uri::parse)
@@ -20,6 +21,10 @@ class SettingsDataStore(private val context: Context) {
 
     val themeModeFlow: Flow<ThemeMode> = context.dataStore.data.map { prefs ->
         ThemeMode.fromStorage(prefs[themeModeKey])
+    }
+
+    val templateFlow: Flow<String> = context.dataStore.data.map { prefs ->
+        prefs[templateKey] ?: ""
     }
 
     suspend fun setRootUri(uri: Uri?) {
@@ -35,6 +40,12 @@ class SettingsDataStore(private val context: Context) {
     suspend fun setThemeMode(mode: ThemeMode) {
         context.dataStore.edit { prefs ->
             prefs[themeModeKey] = mode.storageValue
+        }
+    }
+
+    suspend fun setTemplate(template: String) {
+        context.dataStore.edit { prefs ->
+            prefs[templateKey] = template
         }
     }
 }

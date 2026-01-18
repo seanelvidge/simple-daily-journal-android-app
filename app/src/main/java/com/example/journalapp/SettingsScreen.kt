@@ -12,6 +12,7 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -21,6 +22,8 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
@@ -33,6 +36,8 @@ fun SettingsScreen(
     onPickFolder: () -> Unit,
     themeMode: ThemeMode,
     onThemeModeChange: (ThemeMode) -> Unit,
+    onTemplateClick: () -> Unit,
+    onForceSave: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -64,6 +69,12 @@ fun SettingsScreen(
             Button(onClick = onPickFolder) {
                 Text("Change folder")
             }
+            Button(onClick = onTemplateClick) {
+                Text("Template")
+            }
+            Button(onClick = onForceSave) {
+                Text("Force save")
+            }
             Text(
                 text = "Theme",
                 style = MaterialTheme.typography.titleSmall,
@@ -93,6 +104,33 @@ fun SettingsScreen(
                     }
                 }
             }
+            AboutButton()
         }
+    }
+}
+
+@Composable
+private fun AboutButton() {
+    val showDialog = remember { mutableStateOf(false) }
+    Button(onClick = { showDialog.value = true }) {
+        Text("About")
+    }
+    if (showDialog.value) {
+        AlertDialog(
+            onDismissRequest = { showDialog.value = false },
+            title = { Text("Simple Daily Journaling") },
+            text = {
+                Text(
+                    "Offline-first daily journal for Markdown notes.\\n\\n" +
+                        "Version: ${BuildConfig.VERSION_NAME}\\n" +
+                        "Author: Sean Elvidge"
+                )
+            },
+            confirmButton = {
+                Button(onClick = { showDialog.value = false }) {
+                    Text("OK")
+                }
+            },
+        )
     }
 }

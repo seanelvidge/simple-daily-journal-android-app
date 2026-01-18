@@ -20,6 +20,7 @@ import java.time.YearMonth
 @OptIn(FlowPreview::class)
 class JournalViewModel(
     private val repository: StorageRepository,
+    private val settings: SettingsDataStore,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(JournalUiState())
@@ -29,6 +30,7 @@ class JournalViewModel(
     private var suppressSave = false
     private var attachmentUriMap: Map<String, Uri> = emptyMap()
     private var lastSavedText: String = ""
+    private var templateText: String = ""
 
     init {
         viewModelScope.launch {
@@ -49,6 +51,12 @@ class JournalViewModel(
                 loadDate(LocalDate.now())
             }
         }
+
+        viewModelScope.launch {
+            settings.templateFlow.collectLatest { template ->
+                templateText = template
+            }
+        }
     }
 
     fun onFolderSelected(uri: Uri?) {
@@ -65,11 +73,17 @@ class JournalViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             suppressSave = true
             try {
-                val text = repository.loadEntry(date)
                 val month = YearMonth.from(date)
+                val entries = repository.listEntryDates(month)
+                val isNewEntry = !entries.contains(date)
+                val loadedText = repository.loadEntry(date)
+                val text = if (isNewEntry && loadedText.isBlank() && templateText.isNotBlank()) {
+                    templateText
+                } else {
+                    loadedText
+                }
                 attachmentUriMap = repository.listAttachmentUris(month)
                 val preview = transformMarkdown(text, attachmentUriMap)
-                val entries = repository.listEntryDates(month)
                 lastSavedText = text
                 _uiState.update {
                     it.copy(
@@ -185,11 +199,12 @@ class JournalViewModel(
 
     class Factory(
         private val repository: StorageRepository,
+        private val settings: SettingsDataStore,
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(JournalViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return JournalViewModel(repository) as T
+                return JournalViewModel(repository, settings) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }

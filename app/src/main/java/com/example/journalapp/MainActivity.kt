@@ -20,7 +20,8 @@ class MainActivity : ComponentActivity() {
     private val settings by lazy { SettingsDataStore(this) }
     private val viewModel: JournalViewModel by viewModels {
         JournalViewModel.Factory(
-            SafStorageRepository(this, settings)
+            SafStorageRepository(this, settings),
+            settings
         )
     }
 
@@ -30,6 +31,7 @@ class MainActivity : ComponentActivity() {
             val context = LocalContext.current
             val coroutineScope = rememberCoroutineScope()
             val themeMode by settings.themeModeFlow.collectAsState(initial = ThemeMode.SYSTEM)
+            val templateText by settings.templateFlow.collectAsState(initial = "")
             val pickFolderLauncher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.OpenDocumentTree(),
                 onResult = { uri ->
@@ -66,6 +68,13 @@ class MainActivity : ComponentActivity() {
                             settings.setThemeMode(mode)
                         }
                     },
+                    templateText = templateText,
+                    onTemplateChange = { text ->
+                        coroutineScope.launch {
+                            settings.setTemplate(text)
+                        }
+                    },
+                    onForceSave = { viewModel.saveNow() },
                 )
             }
         }

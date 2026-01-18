@@ -16,6 +16,9 @@ fun JournalApp(
     onPickPhotos: () -> Unit,
     themeMode: ThemeMode,
     onThemeModeChange: (ThemeMode) -> Unit,
+    templateText: String,
+    onTemplateChange: (String) -> Unit,
+    onForceSave: () -> Unit,
 ) {
     val navController = rememberNavController()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -47,6 +50,15 @@ fun JournalApp(
                 onPickFolder = onPickFolder,
                 themeMode = themeMode,
                 onThemeModeChange = onThemeModeChange,
+                onTemplateClick = { navController.navigate("template") },
+                onForceSave = onForceSave,
+            )
+        }
+        composable("template") {
+            TemplateScreen(
+                templateText = templateText,
+                onTemplateChange = onTemplateChange,
+                onBack = { navController.popBackStack() },
             )
         }
     }
