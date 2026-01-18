@@ -3,7 +3,7 @@
 A simple offline-first daily journal for Markdown notes stored in a user-selected folder.
 
 Latest release: **v1.1.0**  
-APK download: https://github.com/seanelvidge/journalApp/releases/tag/v1.1.0
+APK download: [https://github.com/seanelvidge/journalApp/releases/tag/v1.1.0](https://github.com/seanelvidge/simple-daily-journal-android-app/releases/tag/v1.1.0)
 
 You can either download the APK from the release page or build it yourself.
 
